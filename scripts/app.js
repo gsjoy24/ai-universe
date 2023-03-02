@@ -1,15 +1,15 @@
 // ! loading the data from the database.
-const loadData = async () => {
+const loadToolInfo = async () => {
 	const res = await fetch('https://openapi.programming-hero.com/api/ai/tools');
 	const data = await res.json();
-	ShowData(data.data.tools);
+	ShowCards(data.data.tools);
 };
 
-const ShowData = (tools) => {
+const ShowCards = (tools) => {
 	const cardContainer = document.getElementById('card-container');
 
 	tools.forEach((tool) => {
-		const { name, image, published_in, features } = tool;
+		const { name, image, published_in, features, id } = tool;
 		// console.log(tool);
 
 		cardContainer.innerHTML += `
@@ -28,11 +28,12 @@ const ShowData = (tools) => {
                   <hr class="my-2  border-gray-400">
                   <div class="flex justify-between items-center">
                      <div>
-                     <h2 class="font-semibold text-xl mb-2">${name}</h2>
-                     <p"><i class="fa-solid fa-calendar-days"></i> ${published_in}</p>
+                        <h2 class="font-semibold text-xl mb-2">${name}</h2>
+                        <small class="text-gray-500"><i class="fa-solid fa-calendar-days"></i> ${published_in}</small>
                      </div>
                      <div>
-                     <button class="btn btn-primary rounded-full"><i class="fa-solid fa-arrow-right"></i></button>
+                        <label for="card-details-modal" onclick="loadToolDetails('${id}')" class="btn btn-primary rounded-full"><i class="fa-solid fa-arrow-right"></i>
+                        </label>
                      </div>
                   </div>
                </div>
@@ -40,6 +41,46 @@ const ShowData = (tools) => {
       `;
 	});
 };
-/**  
 
- */
+const loadToolDetails = async (id) => {
+	const URL = `https://openapi.programming-hero.com/api/ai/tool/${id}`;
+	const res = await fetch(URL);
+	const data = await res.json();
+	showToolDetails(data.data);
+};
+
+const showToolDetails = (toolDetails) => {
+	console.log(toolDetails);
+	const modalContainer = document.getElementById('modal-container');
+	modalContainer.innerHTML = '';
+	const { tool_name, description, pricing, features, id } = toolDetails;
+	modalContainer.innerHTML += `
+   <div>
+      <div>
+         <p class="font-semibold">${description}</p>
+         <div class="flex gap-2 text-center justify-between font-semibold">
+            <div class="p-3 rounded-lg bg-white text-green-500">
+               <p>${pricing ? pricing[0].price : ''}</p>
+               <p>${pricing[0].plan}</p>
+            </div>
+            <div class="p-3 rounded-lg bg-white  text-orange-600">
+               <p>${pricing[1].price}</p>
+               <p>${pricing[1].plan}</p>
+            </div>
+            <div class="p-3 rounded-lg bg-white  text-red-500">
+               <p>${pricing[2].price}</p>
+               <p>${pricing[2].plan}</p>
+            </div>
+         </div>
+         <div class="feature">
+            <ol id="feature-list" class="list-decimal list-inside">
+                     <li>${features['1'].feature_name}</li>
+                     <li>${features['2'].feature_name}</li>
+                     <li>${features['3'].feature_name}</li>
+      ${features['4'] ? `<li>${features['4'].feature_name}</li>` : ''}
+            </ol>
+         </div>
+      </div>
+   </div>
+   `;
+};

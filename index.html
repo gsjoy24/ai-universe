@@ -5,7 +5,10 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<title>AI-Universe</title>
+		<!-- ! My own favicon for practice -->
 		<link rel="shortcut icon" href="favicon.png" type="image/x-icon" />
+
+		<!-- ! font awesome cdn link -->
 		<link
 			rel="stylesheet"
 			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css"
@@ -13,13 +16,16 @@
 			crossorigin="anonymous"
 			referrerpolicy="no-referrer"
 		/>
+
+		<!-- ! tailwindcss cdn link -->
 		<script src="https://cdn.tailwindcss.com"></script>
+
+		<!-- ! daisyui cdn link -->
 		<link href="https://cdn.jsdelivr.net/npm/daisyui@2.51.3/dist/full.css" rel="stylesheet" type="text/css" />
 	</head>
-	<body onload="loadData()">
+	<body onload="loadToolInfo()">
 		<header class="py-10">
 			<h1 class="text-5xl text-center mb-8 font-bold">AI Universe Hub</h1>
-
 			<select class="select bg-red-500 text-white block m-auto text-xl">
 				<option disabled selected>Sort By Date</option>
 				<option>Homer</option>
@@ -29,9 +35,22 @@
 				<option>Maggie</option>
 			</select>
 		</header>
+
 		<main class="p-8">
+			<!-- cards section -->
 			<section class="flex justify-center items-center">
 				<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8" id="card-container"></div>
+			</section>
+
+			<!-- modal section -->
+			<section>
+				<input type="checkbox" id="card-details-modal" class="modal-toggle" />
+				<div class="modal">
+					<div class="modal-box relative">
+						<label for="card-details-modal" class="btn btn-sm btn-circle absolute right-2 top-2">✕</label>
+						<div id="modal-container" class="p-4 bg-red-200 border-1 border-red-600 rounded-lg"></div>
+					</div>
+				</div>
 			</section>
 		</main>
 
