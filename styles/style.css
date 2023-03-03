@@ -1,6 +1,11 @@
 .d-none {
 	display: none;
 }
+.modal-box {
+	max-width: 900px;
+}
+
+/* ! for loading animation */
 .content {
 	width: 100%;
 	height: 15vh;

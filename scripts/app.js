@@ -65,26 +65,27 @@ const showToolDetails = (toolDetails) => {
 	const modalContainer = document.getElementById('modal-container');
 	modalContainer.textContent = '';
 
-	const { tool_name, description, pricing, features, integrations } = toolDetails;
+	const { description, pricing, features, integrations, image_link, input_output_examples, accuracy } = toolDetails;
 	modalContainer.innerHTML += `
-   <div>
-      <div>
-         <p class="font-semibold">${description}</p>
-         <div class="flex gap-2 text-center justify-between font-semibold my-3">
-            <div class="p-3 rounded-lg bg-white text-green-500">
+   <div class="flex flex-col-reverse md:flex-row justify-around gap-4">
+      <div class="max-w-sm bg-red-200 border-1 border-red-600 rounded-lg p-5">
+         <div>
+         <p class="font-bold text-xl">${description}</p>
+         <div class="flex gap-2 text-center justify-between font-semibold my-3 text-xs">
+            <div class="p-3 rounded-lg bg-white text-green-500 flex flex-col justify-center items-center">
                ${pricing === null ? `<p>free of cost</p>` : `<p>${pricing[0].price}</p>`}
                ${pricing === null ? `<p>Starter</p>` : `<p>${pricing[0].plan}</p>`}
             </div>
-            <div class="p-3 rounded-lg bg-white  text-orange-600">
+            <div class="p-3 rounded-lg bg-white  text-orange-600 flex flex-col justify-center items-center">
                ${pricing === null ? `<p>free of cost</p>` : `<p>${pricing[1].price}</p>`}
                ${pricing === null ? `<p>Pro</p>` : `<p>${pricing[1].plan}</p>`}
             </div>
-            <div class="p-3 rounded-lg bg-white  text-red-500">
+            <div class="p-3 rounded-lg bg-white  text-red-500 flex flex-col justify-center items-center">
                ${pricing === null ? `<p>free of cost</p>` : `<p>${pricing[2].price}</p>`}
                ${pricing === null ? `<p>Enterprise</p>` : `<p>${pricing[2].plan}</p>`}
             </div>
          </div>
-         <div class="flex justify-between items-center">
+         <div class="flex flex-col lg:flex-row gap-y-3 justify-between items-start lg:items-center my-2 text-xs">
             <div class="feature">
                   <h2 class="text-xl font-semibold">Feature</h2>
                   <ol id="feature-list" class="list-disc list-inside">
@@ -97,19 +98,41 @@ const showToolDetails = (toolDetails) => {
             <div>
                <h2 class="text-xl font-semibold">Integrations</h2>
                   ${
-                              integrations === null
-                                 ? `<p>No data found</p>`
-                                 : `
+										integrations === null
+											? `<p>No data found</p>`
+											: `
                <ol id="feature-list" class="list-disc  list-inside">
                   <li>${integrations[0]}</li>
                   ${integrations[1] ? `<li>${integrations[1]}</li>` : ``}
                   ${integrations[2] ? `<li>${integrations[2]}</li>` : ``}
                   ${integrations[3] ? `<li>${integrations[3]}</li>` : ``}
+                  ${integrations[4] ? `<li>${integrations[4]}</li>` : ``}
                   
                </ol>`
-                           }
+									}
             </div>
          </div>
+      </div>
+      </div>
+      <div class="max-w-sm ">
+         <div class="card bg-base-100 shadow-xl">
+            <figure class="px-10 pt-10 relative">
+               <img src="${image_link[0]}" alt="Shoes" class="rounded-xl " />
+               ${accuracy ? `<p class="bg-red-500 text-white absolute top-14 right-14">fffff</p>`}
+            </figure>
+            <div class="card-body items-center text-center">
+               ${
+									input_output_examples
+										? `<h2 class="card-title">${input_output_examples[0].input}</h2>`
+										: `<h2 class="card-title">Can you give any example?</h2>`
+								}
+               ${
+									input_output_examples
+										? `<p class="">${input_output_examples[0].output}</p>`
+										: `<p class="">No! Not Yet! Take a break!!!</p>`
+								}
+            </div>
+            </div>
       </div>
    </div>
    `;
