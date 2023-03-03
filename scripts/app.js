@@ -1,26 +1,27 @@
 // ! loading the data from the database.
 const loadToolInfo = async (dataLimit) => {
+	loadingAnimation(true);
 	const res = await fetch('https://openapi.programming-hero.com/api/ai/tools');
 	const data = await res.json();
 	ShowCards(data.data.tools, dataLimit);
 };
 
+// ! Showing Cards
 const ShowCards = (tools, dataLimit) => {
 	const cardContainer = document.getElementById('card-container');
 	cardContainer.textContent = '';
 	const showBtnBox = document.getElementById('btn-show-more-box');
 
+	// ! setting limited cards
 	if (dataLimit) {
 		tools = tools.slice(0, 6);
 		showBtnBox.classList.remove('d-none');
 	} else {
-		showBtnBox.classList.add('d-none');    
+		showBtnBox.classList.add('d-none');
 	}
 
 	tools.forEach((tool) => {
 		const { name, image, published_in, features, id } = tool;
-		// console.log(tool);
-
 		cardContainer.innerHTML += `
             <div class="card max-w-[340px] bg-base-100 shadow-xl">
                <figure>
@@ -34,7 +35,7 @@ const ShowCards = (tools, dataLimit) => {
                      <li>${features[2]}</li>
       ${features[3] ? `<li>${features[3]}</li>` : ''}
                   </ol>
-                  <hr class="my-2  border-gray-400">
+                  <hr class="my-2 border-gray-400">
                   <div class="flex justify-between items-center">
                      <div>
                         <h2 class="font-semibold text-xl mb-2">${name}</h2>
@@ -49,6 +50,7 @@ const ShowCards = (tools, dataLimit) => {
             </div>
       `;
 	});
+	loadingAnimation(false);
 };
 
 const loadToolDetails = async (id) => {
@@ -61,33 +63,52 @@ const loadToolDetails = async (id) => {
 const showToolDetails = (toolDetails) => {
 	console.log(toolDetails);
 	const modalContainer = document.getElementById('modal-container');
-	modalContainer.innerHTML = '';
-	const { tool_name, description, pricing, features, id } = toolDetails;
+	modalContainer.textContent = '';
+
+	const { tool_name, description, pricing, features, integrations } = toolDetails;
 	modalContainer.innerHTML += `
    <div>
       <div>
          <p class="font-semibold">${description}</p>
-         <div class="flex gap-2 text-center justify-between font-semibold">
+         <div class="flex gap-2 text-center justify-between font-semibold my-3">
             <div class="p-3 rounded-lg bg-white text-green-500">
-               <p>${pricing ? pricing[0].price : ''}</p>
-               <p>${pricing[0].plan}</p>
+               ${pricing === null ? `<p>free of cost</p>` : `<p>${pricing[0].price}</p>`}
+               ${pricing === null ? `<p>Starter</p>` : `<p>${pricing[0].plan}</p>`}
             </div>
             <div class="p-3 rounded-lg bg-white  text-orange-600">
-               <p>${pricing[1].price}</p>
-               <p>${pricing[1].plan}</p>
+               ${pricing === null ? `<p>free of cost</p>` : `<p>${pricing[1].price}</p>`}
+               ${pricing === null ? `<p>Pro</p>` : `<p>${pricing[1].plan}</p>`}
             </div>
             <div class="p-3 rounded-lg bg-white  text-red-500">
-               <p>${pricing[2].price}</p>
-               <p>${pricing[2].plan}</p>
+               ${pricing === null ? `<p>free of cost</p>` : `<p>${pricing[2].price}</p>`}
+               ${pricing === null ? `<p>Enterprise</p>` : `<p>${pricing[2].plan}</p>`}
             </div>
          </div>
-         <div class="feature">
-            <ol id="feature-list" class="list-decimal list-inside">
+         <div class="flex justify-between items-center">
+            <div class="feature">
+                  <h2 class="text-xl font-semibold">Feature</h2>
+                  <ol id="feature-list" class="list-disc list-inside">
                      <li>${features['1'].feature_name}</li>
                      <li>${features['2'].feature_name}</li>
                      <li>${features['3'].feature_name}</li>
-      ${features['4'] ? `<li>${features['4'].feature_name}</li>` : ''}
-            </ol>
+                     ${features['4'] ? `<li>${features['4'].feature_name}</li>` : ``}
+                  </ol>
+            </div>
+            <div>
+               <h2 class="text-xl font-semibold">Integrations</h2>
+                  ${
+                              integrations === null
+                                 ? `<p>No data found</p>`
+                                 : `
+               <ol id="feature-list" class="list-disc  list-inside">
+                  <li>${integrations[0]}</li>
+                  ${integrations[1] ? `<li>${integrations[1]}</li>` : ``}
+                  ${integrations[2] ? `<li>${integrations[2]}</li>` : ``}
+                  ${integrations[3] ? `<li>${integrations[3]}</li>` : ``}
+                  
+               </ol>`
+                           }
+            </div>
          </div>
       </div>
    </div>
@@ -102,3 +123,9 @@ const loadingAnimation = (isLoading) => {
 		loader.classList.add('d-none');
 	}
 };
+
+/*
+
+<p>${pricing[2].price}</p>
+<p>${pricing[2].plan}</p>
+ */
