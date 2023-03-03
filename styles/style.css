@@ -1,3 +1,7 @@
+* {
+	/* for smoothness */
+	transition: 200ms;
+}
 .d-none {
 	display: none;
 }

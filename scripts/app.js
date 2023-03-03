@@ -1,23 +1,42 @@
 // ! loading the data from the database.
-const loadToolInfo = async (dataLimit) => {
+const loadToolInfo = async (sorted = false, dataLimit = 12) => {
+	// starting loading animation
 	loadingAnimation(true);
+
 	const res = await fetch('https://openapi.programming-hero.com/api/ai/tools');
 	const data = await res.json();
-	ShowCards(data.data.tools, dataLimit);
+	ShowCards(data.data.tools, sorted, dataLimit);
 };
 
 // ! Showing Cards
-const ShowCards = (tools, dataLimit) => {
+const ShowCards = (tools, sorted, dataLimit) => {
 	const cardContainer = document.getElementById('card-container');
-	cardContainer.textContent = '';
+	cardContainer.innerHTML = ``;
 	const showBtnBox = document.getElementById('btn-show-more-box');
 
 	// ! setting limited cards
-	if (dataLimit) {
-		tools = tools.slice(0, 6);
+	if (dataLimit === 6) {
+		tools = tools.slice(0, dataLimit);
 		showBtnBox.classList.remove('d-none');
 	} else {
 		showBtnBox.classList.add('d-none');
+	}
+
+	if (sorted === true) {
+		const sortByDate = (a, b) => {
+			const first = new Date(a.published_in);
+			const second = new Date(b.published_in);
+			if (first < second) {
+				return 1;
+			} else if (first > second) {
+				return -1;
+			} else {
+				return 0;
+			}
+		};
+		tools.sort(sortByDate);
+	} else {
+		tools = tools;
 	}
 
 	tools.forEach((tool) => {
@@ -50,6 +69,8 @@ const ShowCards = (tools, dataLimit) => {
             </div>
       `;
 	});
+
+	// stopping loading animation
 	loadingAnimation(false);
 };
 
@@ -60,15 +81,15 @@ const loadToolDetails = async (id) => {
 	showToolDetails(data.data);
 };
 
+// ! showing details on the modal
 const showToolDetails = (toolDetails) => {
-	console.log(toolDetails);
 	const modalContainer = document.getElementById('modal-container');
 	modalContainer.textContent = '';
 
 	const { description, pricing, features, integrations, image_link, input_output_examples, accuracy } = toolDetails;
 	modalContainer.innerHTML += `
    <div class="flex flex-col-reverse md:flex-row justify-around gap-4 pt-3 lg:p-5">
-      <div class="max-w-sm bg-red-200 border-1 border-red-600 rounded-lg p-5">
+      <div class="max-w-sm bg-red-200 border-1 border-red-600 rounded-lg p-5 shadow-xl">
          <div>
          <p class="font-bold text-xl">${description}</p>
          <div class="flex gap-2 text-center justify-between font-semibold my-3 text-xs">
@@ -144,6 +165,7 @@ const showToolDetails = (toolDetails) => {
    `;
 };
 
+// ! loading animation function
 const loadingAnimation = (isLoading) => {
 	const loader = document.getElementById('loader');
 	if (isLoading) {
@@ -153,8 +175,6 @@ const loadingAnimation = (isLoading) => {
 	}
 };
 
-/*
-
-<p>${pricing[2].price}</p>
-<p>${pricing[2].plan}</p>
- */
+const sort = () => {
+	loadToolInfo(true);
+};
