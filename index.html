@@ -25,10 +25,10 @@
 		<!-- ! custom styles -->
 		<link rel="stylesheet" href="styles/style.css" />
 	</head>
-	<body onload="loadToolInfo(false,6)">
+	<body onload="loadToolInfo(6,false)">
 		<header class="py-10">
 			<h1 class="text-5xl text-center mb-8 font-bold">AI Universe Hub</h1>
-			<button onclick="sort()" class="btn btn-primary text-white block m-auto">Sort By Date</button>
+			<button onclick="sort(12)" class="btn btn-primary text-white block m-auto">Sort By Date</button>
 		</header>
 
 		<main class="p-8">
@@ -63,10 +63,12 @@
 			</section>
 			<!-- show all button -->
 			<div id="btn-show-more-box" class="d-none p-5">
-				<button onclick="loadToolInfo()" id="btn-show-more" class="btn btn-primary m-auto block px-3">Show More</button>
+				<button onclick="loadToolInfo(false,12)" id="btn-show-more" class="btn btn-primary m-auto block px-3">
+					Show More
+				</button>
 			</div>
 		</main>
-
+		<!-- ! custom js file -->
 		<script src="scripts/app.js"></script>
 	</body>
 </html>

@@ -1,1 +1,1 @@
-# b7a6-ai-universe-assignment-gsjoy24
+check the live site here 👉👉 https://joys-ai-universe.netlify.app

@@ -1,15 +1,15 @@
 // ! loading the data from the database.
-const loadToolInfo = async (sorted = false, dataLimit = 12) => {
+const loadToolInfo = async (dataLimit = 6, sorted = false) => {
 	// starting loading animation
 	loadingAnimation(true);
 
 	const res = await fetch('https://openapi.programming-hero.com/api/ai/tools');
 	const data = await res.json();
-	ShowCards(data.data.tools, sorted, dataLimit);
+	ShowCards(data.data.tools, dataLimit, sorted);
 };
 
 // ! Showing Cards
-const ShowCards = (tools, sorted, dataLimit) => {
+const ShowCards = (tools, dataLimit, sorted) => {
 	const cardContainer = document.getElementById('card-container');
 	cardContainer.innerHTML = ``;
 	const showBtnBox = document.getElementById('btn-show-more-box');
@@ -52,7 +52,7 @@ const ShowCards = (tools, sorted, dataLimit) => {
                      <li>${features[0]}</li>
                      <li>${features[1]}</li>
                      <li>${features[2]}</li>
-      ${features[3] ? `<li>${features[3]}</li>` : ''}
+      ${features[3] ? `<li>${features[3]}</li>` : ``}
                   </ol>
                   <hr class="my-2 border-gray-400">
                   <div class="flex justify-between items-center">
@@ -84,15 +84,15 @@ const loadToolDetails = async (id) => {
 // ! showing details on the modal
 const showToolDetails = (toolDetails) => {
 	const modalContainer = document.getElementById('modal-container');
-	modalContainer.textContent = '';
+	modalContainer.textContent = ``;
 
 	const { description, pricing, features, integrations, image_link, input_output_examples, accuracy } = toolDetails;
 	modalContainer.innerHTML += `
-   <div class="flex flex-col-reverse md:flex-row justify-around gap-4 pt-3 lg:p-5">
+   <div class="flex flex-col-reverse md:flex-row justify-around items-center gap-4 pt-3 lg:p-5">
       <div class="max-w-sm bg-red-200 border-1 border-red-600 rounded-lg p-5 shadow-xl">
          <div>
-         <p class="font-bold text-xl">${description}</p>
-         <div class="flex gap-2 text-center justify-between font-semibold my-3 text-xs">
+         <p class="font-semibold text-xl">${description}</p>
+         <div class="flex flex-wrap gap-y-5 gap-x-3 text-center justify-center font-semibold my-5 text-xs mx-auto">
             <div class="p-3 rounded-lg bg-white text-green-500 flex flex-col justify-center items-center">
                ${pricing === null ? `<p>free of cost</p>` : `<p>${pricing[0].price}</p>`}
                ${pricing === null ? `<p>Starter</p>` : `<p>${pricing[0].plan}</p>`}
@@ -135,6 +135,7 @@ const showToolDetails = (toolDetails) => {
          </div>
       </div>
       </div>
+
       <div class="max-w-sm ">
          <div class="card bg-base-100 shadow-xl">
             <figure class="px-3 pt-3 relative">
@@ -175,6 +176,6 @@ const loadingAnimation = (isLoading) => {
 	}
 };
 
-const sort = () => {
-	loadToolInfo(true);
+const sort = (dataLimit) => {
+	loadToolInfo(dataLimit, true);
 };
