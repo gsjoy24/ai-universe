@@ -22,8 +22,10 @@
 
 		<!-- ! daisyui cdn link -->
 		<link href="https://cdn.jsdelivr.net/npm/daisyui@2.51.3/dist/full.css" rel="stylesheet" type="text/css" />
+		<!-- ! custom styles -->
+		<link rel="stylesheet" href="styles/style.css" />
 	</head>
-	<body onload="loadToolInfo()">
+	<body onload="loadToolInfo(6)">
 		<header class="py-10">
 			<h1 class="text-5xl text-center mb-8 font-bold">AI Universe Hub</h1>
 			<select class="select bg-red-500 text-white block m-auto text-xl">
@@ -49,6 +51,22 @@
 					<div class="modal-box relative">
 						<label for="card-details-modal" class="btn btn-sm btn-circle absolute right-2 top-2">✕</label>
 						<div id="modal-container" class="p-4 bg-red-200 border-1 border-red-600 rounded-lg"></div>
+					</div>
+				</div>
+				<!-- show all button -->
+				<div id="btn-show-more-box" class="d-nne p-5">
+					<button onclick="loadToolInfo()" id="btn-show-more" class="btn btn-primary m-auto block px-3">
+						Show More
+					</button>
+				</div>
+			</section>
+
+			<!-- loading animation -->
+			<section id="loader" class="d-none">
+				<div class="content">
+					<div class="loading">
+						<p>loading</p>
+						<span></span>
 					</div>
 				</div>
 			</section>

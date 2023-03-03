@@ -1,12 +1,21 @@
 // ! loading the data from the database.
-const loadToolInfo = async () => {
+const loadToolInfo = async (dataLimit) => {
 	const res = await fetch('https://openapi.programming-hero.com/api/ai/tools');
 	const data = await res.json();
-	ShowCards(data.data.tools);
+	ShowCards(data.data.tools, dataLimit);
 };
 
-const ShowCards = (tools) => {
+const ShowCards = (tools, dataLimit) => {
 	const cardContainer = document.getElementById('card-container');
+	cardContainer.textContent = '';
+	const showBtnBox = document.getElementById('btn-show-more-box');
+
+	if (dataLimit) {
+		tools = tools.slice(0, 6);
+		showBtnBox.classList.remove('d-none');
+	} else {
+		showBtnBox.classList.add('d-none');    
+	}
 
 	tools.forEach((tool) => {
 		const { name, image, published_in, features, id } = tool;
@@ -83,4 +92,13 @@ const showToolDetails = (toolDetails) => {
       </div>
    </div>
    `;
+};
+
+const loadingAnimation = (isLoading) => {
+	const loader = document.getElementById('loader');
+	if (isLoading) {
+		loader.classList.remove('d-none');
+	} else {
+		loader.classList.add('d-none');
+	}
 };
