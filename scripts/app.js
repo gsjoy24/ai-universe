@@ -67,7 +67,7 @@ const showToolDetails = (toolDetails) => {
 
 	const { description, pricing, features, integrations, image_link, input_output_examples, accuracy } = toolDetails;
 	modalContainer.innerHTML += `
-   <div class="flex flex-col-reverse md:flex-row justify-around gap-4">
+   <div class="flex flex-col-reverse md:flex-row justify-around gap-4 pt-3 lg:p-5">
       <div class="max-w-sm bg-red-200 border-1 border-red-600 rounded-lg p-5">
          <div>
          <p class="font-bold text-xl">${description}</p>
@@ -116,9 +116,15 @@ const showToolDetails = (toolDetails) => {
       </div>
       <div class="max-w-sm ">
          <div class="card bg-base-100 shadow-xl">
-            <figure class="px-10 pt-10 relative">
+            <figure class="px-3 pt-3 relative">
                <img src="${image_link[0]}" alt="Shoes" class="rounded-xl " />
-               ${accuracy ? `<p class="bg-red-500 text-white absolute top-14 right-14">fffff</p>`}
+               ${
+									accuracy.score !== null
+										? `<p class="rounded-full bg-red-500 text-white text-xs py-1 px-3 absolute top-6 right-6">${
+												accuracy.score * 100
+										  }% accuracy</p>`
+										: ``
+								}
             </figure>
             <div class="card-body items-center text-center">
                ${
